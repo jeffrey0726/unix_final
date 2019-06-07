@@ -16,19 +16,9 @@ for $i (0..$filesize-1){
     $n = 0;
     $cnt = 0;
     while( defined( $line = <FILE> )){
-      if($first eq "true"){
-	$n = 1;
-	$first = "false";
-      }
-      else{ $n = 0;}
       my @linesplt = split(' ',$line);
       my $check = 0;
-      if($size1 == 0){
-	$data1[0] = $linesplt[0];
-	$data1cnt[0] = 1;
-	$size1++;
-      }
-      for my $ii ($n..scalar(@linesplt)-1){
+      for my $ii (0..scalar(@linesplt)-1){
 	my $len = $size1-1;
 	for my $jj (0..$len){
 	  if($data1[$jj] eq $linesplt[$ii]){
@@ -45,22 +35,10 @@ for $i (0..$filesize-1){
       }
     }
     open(FILE, $files[$j]);
-    $first = "true";
-    $m = 0;
     while( defined( $line = <FILE> )){
-      if($first eq "true"){
-	$m = 1;
-	$first = "false";
-      }
-      else{ $m = 0;}
       my @linesplt = split(' ',$line);
       my $check = 0;
-      if($size2 == 0){
-	$data2[0] = $linesplt[0];
-	$data2cnt[0] = 1;
-	$size2++;
-      }
-      for my $ii ($m..scalar(@linesplt)-1){	  
+      for my $ii (0..scalar(@linesplt)-1){	  
 	my $len = $size2-1;
 	for my $jj (0..$len){
 	  if($data2[$jj] eq $linesplt[$ii]){
@@ -90,17 +68,14 @@ for $i (0..$filesize-1){
 	}
       }
     }
-    $total1 = 0;
-    $total2 = 0;
     foreach (0..$size1-1){
-      $total1 += $data1cnt[$_];
+      $total += $data1cnt[$_];
     }
     foreach (0..$size2-1){
-      $total2 += $data2cnt[$_];
+      $total += $data2cnt[$_];
     }
-    $total = $total1 + $total2;
-    #print "total:", $total,"\n";
-    #print "common:", $common, "\n";
+    print "total:", $total,"\n";
+    print "common:", $common, "\n";
     $similarity = int(($common/$total)*100);
     print "The similarity of ", $files[$i], " and ", $files[$j], " is ", $similarity, "%\n";
     if($similarity >= 30){
