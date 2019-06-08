@@ -1,4 +1,5 @@
-#!usr/etc/perl
+#!usr/bin/perl
+use Term::ANSIColor;
 opendir(DIR,'./') or die "$!";
 @files = grep{ /\.pl$/i } readdir(DIR);
 $filesize = scalar(@files);
@@ -74,16 +75,16 @@ for $i (0..$filesize-1){
     foreach (0..$size2-1){
       $total += $data2cnt[$_];
     }
-    print "total:", $total,"\n";
-    print "common:", $common, "\n";
+    #print "total:", $total,"\n";
+    #print "common:", $common, "\n";
     $similarity = int(($common/$total)*100);
-    print "The similarity of ", $files[$i], " and ", $files[$j], " is ", $similarity, "%\n";
     if($similarity >= 30){
-      print "Plagiarism!\n";
+      print color 'bold blue';
+      print "The similarity of ", $files[$i], " and ", $files[$j], " is ", $similarity, "% : Plagiarism!\n\n";
+      print color 'reset';
     }
     else{
-      print "Not Plagiarism!\n";
+      print "The similarity of ", $files[$i], " and ", $files[$j], " is ", $similarity, "% : Not plagiarism!\n\n";
     }
   }
 }
-print "hello!\n";
