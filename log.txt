@@ -1,0 +1,47 @@
+commit e737bd00434de8f538a5efbe5f457b33bf02c739
+Author: jeffrey0726 <angulin726@gmail.com>
+Date:   Sun Jun 9 21:45:42 2019 +0800
+
+    final commit
+
+commit 5e154aad6c9566c6d65267f309c1689ce3121d0d
+Author: jeffrey0726 <angulin726@gmail.com>
+Date:   Sun Jun 9 14:55:04 2019 +0800
+
+    add weight
+
+commit 7969ffbc0cdf95d3e6a944da2c0d55426a1d293d
+Author: jeffrey0726 <angulin726@gmail.com>
+Date:   Sun Jun 9 13:20:10 2019 +0800
+
+    add use regular expression to analyze string, fix  bug
+
+commit cdaa119c98b49068246b133aeefa717d0c6a7b6c
+Author: jeffrey0726 <angulin726@gmail.com>
+Date:   Sat Jun 8 15:11:41 2019 +0800
+
+    set color
+
+commit 87b6131adb8557b7cce3a788373d35d582670679
+Author: jeffrey0726 <angulin726@gmail.com>
+Date:   Sat Jun 8 15:11:31 2019 +0800
+
+    set color
+
+commit f920d7e9ed7afc91ecd4dde656d6a916d6b25dee
+Author: 1051503 <eszghp@gmail.com>
+Date:   Sat Jun 8 12:32:06 2019 +0800
+
+    second commit
+
+commit 430aaba4e2ce3a191c956ff83bbb16dea98382a3
+Author: jeffrey0726 <angulin726@gmail.com>
+Date:   Fri Jun 7 22:26:11 2019 +0800
+
+    code optimize
+
+commit 7868608b9fdbcfcf50bf0a03a7391fb86b96c349
+Author: jeffrey0726 <angulin726@gmail.com>
+Date:   Wed Jun 5 20:17:41 2019 +0800
+
+    First commit
