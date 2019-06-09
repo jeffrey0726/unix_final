@@ -45,38 +45,51 @@ sub spltstr{
 }
 sub match1{
   if($_[1] =~ /^["'].*["']$/){
-    $data1weight[$_[0]] = 3;
+    $data1weight[$_[0]] = $weight[0];
   }
   elsif($_[1] =~ /[^\d\w_%&\$@]/){
-    $data1weight[$_[0]] = 1;
+    $data1weight[$_[0]] = $weight[1];
   }
   else{
-    $data1weight[$_[0]] = 2;
+    $data1weight[$_[0]] = $weight[2];
   }
 }
 sub match2{
   if($_[1] =~ /^["'].*["']$/){
-    $data2weight[$_[0]] = 3;
+    $data2weight[$_[0]] = $weight[0];
   }
   elsif($_[1] =~ /[^\d\w_%&\$@]/){
-    $data2weight[$_[0]] = 1;
+    $data2weight[$_[0]] = $weight[1];
   }
   else{
-    $data2weight[$_[0]] = 2;
+    $data2weight[$_[0]] = $weight[2];
   }
 }
 
 opendir(DIR,'./') or die "$!";
 @files = grep{ /\.pl$/i } readdir(DIR);
 $filesize = scalar(@files);
+@weight = (3, 1, 2);
+$first = 0;
 if(!$ARGV[0]){
-   print "-p:Show whether plagiarism\n";
-   print "-s:Show similar percentage\n";
-   print "-a:Show all\n";
+  print "-p : Show whether plagiarism\n";
+  print "-s : Show similar percentage\n";
+  print "-a : Show all\n";
+  print "-i : add common file\n";
+  print "-w : change weight\n";
 }
 else{
 for $i (0..$filesize-1){
   for $j (0..$filesize-1){
+    if($ARGV[0] eq "-w" && $first == 0){
+      print "class1(string): ";
+      chomp($weight[0] = <stdin>);
+      print "class2(parentheses, sign): ";
+      chomp($weight[1] = <stdin>);
+      print "class3(varable, function, type, array): ";
+      chomp($weight[2] = <stdin>);
+      $first = 1;
+    }
     $size1=0;
     $size2=0;
     @data1=();
@@ -85,8 +98,12 @@ for $i (0..$filesize-1){
     @data2cnt=();
     @data1weight=();
     @data2weight=();
-    next if $i >= $j;
-    #next if $files[$i]ne"test.pl" || $files[$j]ne"final.pl";
+    if($ARGV[0] eq"-i"){
+      next if $i > $j;
+    }
+    else{
+      next if $i >= $j;
+    }
     open(FILE, $files[$i]);
     while( defined( $line = <FILE> )){
       my @linesplt=();
@@ -163,7 +180,7 @@ for $i (0..$filesize-1){
       }
     }
    
-    if($ARGV[0] eq "-s"){
+    elsif($ARGV[0] eq "-s"){
 	if($similarity >= 30){
            print color 'bold blue';
 	   print "The similarity of ", $files[$i], " and ", $files[$j] , "is" , $similarity , "%\n";
@@ -174,17 +191,17 @@ for $i (0..$filesize-1){
 	}
     }
 
-    if($ARGV[0] eq "-a"){
-       if($similarity >= 30){
-      print color 'bold blue';
-      print "The similarity of ", $files[$i], " and ", $files[$j], " is ", $similarity, "% : Plagiarism!\n\n";
-      print color 'reset';
-    }
+    elsif($ARGV[0] eq "-a" || $ARGV[0] eq "-i" || $ARGV[0] eq "-w"){
+      if($similarity >= 30){
+        print color 'bold blue';
+        print "The similarity of ", $files[$i], " and ", $files[$j], " is ", $similarity, "% : Plagiarism!\n\n";
+        print color 'reset';
+      }
       else{
-      print "The similarity of ", $files[$i], " and ", $files[$j], " is ", $similarity, "% : Not plagiarism!\n\n";
-    }
+        print "The similarity of ", $files[$i], " and ", $files[$j], " is ", $similarity, "% : Not plagiarism!\n\n";
+      }
 
-     }
+    }
    }
   }
 }
