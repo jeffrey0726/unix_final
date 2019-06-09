@@ -166,49 +166,28 @@ for $i (0..$filesize-1){
     foreach my $val(0..$size2-1){
       $total += $data2cnt[$val]*$data2weight[$val];
     }
-<<<<<<< HEAD
     $total = $total - $common;
-=======
-    #print "total:", $total,"\n";
-    #print "common:", $common, "\n";
->>>>>>> 6e740f0b7daf622515e2e5a645d93e945f75e39b
     $similarity = int(($common/$total)*100);
     if($ARGV[0] eq "-p" ){
     	if($similarity >= 30){
           print color 'bold blue';
-<<<<<<< HEAD
           print "File ",$files[$i], " and ", $files[$j], "is Plagiarism!\n\n";
           print color 'reset';
       }
        else{
           print "File ",$files[$i], " and ", $files[$j], "is not Plagiarism!\n\n";
-=======
-          print "Plagiarism!\n\n";
-          print color 'reset';
-      }
-       else{
-          print "Not plagiarism!\n\n";
->>>>>>> 6e740f0b7daf622515e2e5a645d93e945f75e39b
       }
     }
    
     elsif($ARGV[0] eq "-s"){
-	if($similarity >= 30){
-           print color 'bold blue';
-<<<<<<< HEAD
-	   print "The similarity of ", $files[$i], " and ", $files[$j] , " is " , $similarity , "%\n\n";
-           print color 'reset';
+		if($similarity >= 30){
+          print color 'bold blue';
+		  print "The similarity of ", $files[$i], " and ", $files[$j] , " is " , $similarity , "%\n\n";
+          print color 'reset';
         }
         else{
-	  print "The similarity of ", $files[$i], " and ", $files[$j] , " is " , $similarity , "%\n\n";
-=======
-	   print "The similarity of ", $files[$i], " and ", $files[$j] , "is" , $similarity , "%\n";
-           print color 'reset';
-        }
-        else{
-	  print "The similarity of ", $files[$i], " and ", $files[$j] , "is" , $similarity , "%\n";
->>>>>>> 6e740f0b7daf622515e2e5a645d93e945f75e39b
-	}
+		  print "The similarity of ", $files[$i], " and ", $files[$j] , " is " , $similarity , "%\n\n";
+        }       
     }
 
     elsif($ARGV[0] eq "-a" || $ARGV[0] eq "-i" || $ARGV[0] eq "-w"){
