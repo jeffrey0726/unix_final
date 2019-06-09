@@ -143,16 +143,41 @@ for $i (0..$filesize-1){
     foreach my $val(0..$size2-1){
       $total += $data2cnt[$val]*$data2weight[$val];
     }
-    print "total:", $total,"\n";
-    print "common:", $common, "\n";
+    #print "total:", $total,"\n";
+    #print "common:", $common, "\n";
     $similarity = int(($common/$total)*100);
-    if($similarity >= 30){
+    if($ARGV[0] eq "-p" ){
+    	if($similarity >= 30){
+          print color 'bold blue';
+          print "Plagiarism!\n\n";
+          print color 'reset';
+      }
+       else{
+          print "Not plagiarism!\n\n";
+      }
+    }
+   
+    if($ARGV[0] eq "-s"){
+	if($similarity >= 30){
+           print color 'bold blue';
+	   print "The similarity of ", $files[$i], " and ", $files[$j] , "is" , $similarity , "%\n";
+           print color 'reset';
+        }
+        else{
+	  print "The similarity of ", $files[$i], " and ", $files[$j] , "is" , $similarity , "%\n";
+	}
+    }
+
+    if($ARGV[0] eq "-a"){
+       if($similarity >= 30){
       print color 'bold blue';
       print "The similarity of ", $files[$i], " and ", $files[$j], " is ", $similarity, "% : Plagiarism!\n\n";
       print color 'reset';
     }
-    else{
+      else{
       print "The similarity of ", $files[$i], " and ", $files[$j], " is ", $similarity, "% : Not plagiarism!\n\n";
     }
-  }
+
+     }
+   }
 }
