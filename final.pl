@@ -1,4 +1,4 @@
-#!usr/bin/perl
+#!usr/bin/perl -w
 use Term::ANSIColor;
 
 sub splt{
@@ -43,6 +43,28 @@ sub spltstr{
   $cnt = 0;
   return @result;
 }
+sub match1{
+  if($_[1] =~ /^["'].*["']$/){
+    $data1weight[$_[0]] = 3;
+  }
+  elsif($_[1] =~ /[^\d\w_%&\$@]/){
+    $data1weight[$_[0]] = 1;
+  }
+  else{
+    $data1weight[$_[0]] = 2;
+  }
+}
+sub match2{
+  if($_[1] =~ /^["'].*["']$/){
+    $data2weight[$_[0]] = 3;
+  }
+  elsif($_[1] =~ /[^\d\w_%&\$@]/){
+    $data2weight[$_[0]] = 1;
+  }
+  else{
+    $data2weight[$_[0]] = 2;
+  }
+}
 
 opendir(DIR,'./') or die "$!";
 @files = grep{ /\.pl$/i } readdir(DIR);
@@ -55,6 +77,8 @@ for $i (0..$filesize-1){
     @data1cnt=();
     @data2=();
     @data2cnt=();
+    @data1weight=();
+    @data2weight=();
     next if $i >= $j;
     #next if $files[$i]ne"test.pl" || $files[$j]ne"final.pl";
     open(FILE, $files[$i]);
@@ -63,8 +87,7 @@ for $i (0..$filesize-1){
       @linesplt = spltstr($line);
       my $check = 0;
       for my $ii (0..scalar(@linesplt)-1){
-	my $len = $size1-1;
-	for my $jj (0..$len){
+	for my $jj (0..$size1-1){
 	  if($data1[$jj] eq $linesplt[$ii]){
 	    $data1cnt[$jj] = $data1cnt[$jj]+ 1;
 	    $check = 1;
@@ -73,6 +96,7 @@ for $i (0..$filesize-1){
 	if($check == 0){
 	  $data1[$size1] = $linesplt[$ii];
 	  $data1cnt[$size1] = 1;
+          &match1($size1,$linesplt[$ii]);
 	  $size1++;
 	}
 	else{ $check = 0; }
@@ -84,8 +108,7 @@ for $i (0..$filesize-1){
       @linesplt = spltstr($line);
       my $check = 0;
       for my $ii (0..scalar(@linesplt)-1){	  
-	my $len = $size2-1;
-	for my $jj (0..$len){
+	for my $jj (0..$size2-1){
 	  if($data2[$jj] eq $linesplt[$ii]){
 	    $data2cnt[$jj] = $data2cnt[$jj] + 1;
 	    $check = 1;
@@ -94,6 +117,7 @@ for $i (0..$filesize-1){
 	if($check == 0){
 	  $data2[$size2] = $linesplt[$ii];
 	  $data2cnt[$size2] = 1;
+	  &match2($size2,$linesplt[$ii]);
 	  $size2++;
 	}
 	else{ $check = 0; }
@@ -105,22 +129,22 @@ for $i (0..$filesize-1){
       for my $v2 (0..$size2-1){
 	if($data1[$v1] eq $data2[$v2]){
 	  if($data1cnt[$v1] <= $data2cnt[$v2]){
-	    $common += $data1cnt[$v1]*2;
+	    $common += $data1cnt[$v1]*$data1weight[$v1]*2;
 	  }
 	  else{
-	    $common += $data2cnt[$v2]*2;
+	    $common += $data2cnt[$v2]*$data2weight[$v2]*2;
 	  }
 	}
       }
     }
     foreach my $val(0..$size1-1){
-      $total += $data1cnt[$val];
+      $total += $data1cnt[$val]*$data1weight[$val];
     }
     foreach my $val(0..$size2-1){
-      $total += $data2cnt[$val];
+      $total += $data2cnt[$val]*$data2weight[$val];
     }
-    #print "total:", $total,"\n";
-    #print "common:", $common, "\n";
+    print "total:", $total,"\n";
+    print "common:", $common, "\n";
     $similarity = int(($common/$total)*100);
     if($similarity >= 30){
       print color 'bold blue';
