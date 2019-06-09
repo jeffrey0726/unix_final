@@ -69,6 +69,12 @@ sub match2{
 opendir(DIR,'./') or die "$!";
 @files = grep{ /\.pl$/i } readdir(DIR);
 $filesize = scalar(@files);
+if(!$ARGV[0]){
+   print "-p:Show whether plagiarism\n";
+   print "-s:Show similar percentage\n";
+   print "-a:Show all\n";
+}
+else{
 for $i (0..$filesize-1){
   for $j (0..$filesize-1){
     $size1=0;
@@ -180,4 +186,5 @@ for $i (0..$filesize-1){
 
      }
    }
+  }
 }
